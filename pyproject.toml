@@ -1,0 +1,13 @@
+[project]
+name = "ai-engineer-course"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "faiss-cpu>=1.13.2",
+    "langchain>=1.2.14",
+    "langchain-text-splitters>=1.1.1",
+    "openrouter>=0.8.0",
+    "pypdf>=6.9.2",
+    "requests>=2.33.1",
+    "sentence-transformers>=5.3.0",
+]
