@@ -1,10 +1,3 @@
-"""Digital canvas utilities for the multi-agent painter assignment.
-
-This module exposes a small RGB canvas and primitive drawing operations that
-the Painter agent can invoke via tools. The default size is 200x200 pixels,
-as required by the assignment.
-"""
-
 import base64
 from io import BytesIO
 from PIL import Image, ImageDraw
@@ -41,16 +34,7 @@ class DigitalCanvas:
         self.draw.line([x0, y0, x1, y1], fill=color, width=width)
         return f"Line drawn from ({x0},{y0}) to ({x1},{y1}) with width {width} in {color}."
     
-    def draw_triangle(
-        self,
-        x1: int,
-        y1: int,
-        x2: int,
-        y2: int,
-        x3: int,
-        y3: int,
-        color: str,
-    ) -> str:
+    def draw_triangle(self, x1: int, y1: int, x2: int, y2: int, x3: int, y3: int, color: str) -> str:
         """Draw a filled triangle given three vertices."""
         self.draw.polygon([(x1, y1), (x2, y2), (x3, y3)], fill=color)
         return (

@@ -1,16 +1,3 @@
-"""Main entrypoint for the multi-agent Painter & Critic system.
-
-This script wires up two Autogen/AG2 ConversableAgents:
-
-* Painter: draws on a 200x200 digital canvas via tool calls.
-* Critic: visually evaluates the resulting image and provides structured
-  textual feedback.
-
-The agents converse using Autogen's built-in ``initiate_chat`` mechanism.
-During the conversation, the current canvas image is attached as a
-base64-encoded vision input so both agents can "see" the drawing.
-"""
-
 import logging
 
 import autogen
@@ -24,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 llm_config = {
     "config_list": [
         {
-            "model": "qwen/qwen3.5-flash-02-23",
+            "model": "openai/gpt-4.1-mini",
             "api_key": "not-needed",
             "base_url": "https://5f5832nb90.execute-api.eu-central-1.amazonaws.com/v1",
         }
@@ -84,9 +71,7 @@ critic = autogen.ConversableAgent(
     human_input_mode="NEVER",
 )
 
-
-# Register tools so that the Painter LLM can call them and Python executes
-# the corresponding drawing operations on the shared ``canvas`` instance.
+# Register tools for executor agent
 @painter.register_for_llm(name="draw_rectangle", description="Draw a filled rectangle")
 @executor.register_for_execution(name="draw_rectangle")
 def tool_draw_rectangle(x0: int, y0: int, x1: int, y1: int, color: str) -> str:
@@ -190,7 +175,6 @@ if __name__ == "__main__":
     )
     manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=llm_config)
     
-    # Start the conversation by having the Critic send the initial prompt
     chat_result = critic.initiate_chat(
         manager,
         message=f"Let's start! Our subject is: '{subject_prompt}'. Please use your tools to draw the initial version.",
