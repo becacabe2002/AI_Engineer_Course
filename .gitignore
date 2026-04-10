@@ -2,3 +2,5 @@
 env
 index/
 __pycache__/
+*.png
+docs/superpowers/
